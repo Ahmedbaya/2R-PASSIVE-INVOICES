@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { CURRENCIES, formatMoney, type Currency } from '../lib/format'
+import { fetchCompany } from '../lib/settings'
 import { useI18n } from '../i18n/I18nProvider'
+import { LOGO } from '../assets/logo'
 
 interface Kpi {
   currency: Currency
@@ -23,6 +25,7 @@ export default function Dashboard(): React.JSX.Element {
   const { t, locale } = useI18n()
   const [kpis, setKpis] = useState<Kpi[]>([])
   const [alerts, setAlerts] = useState<Alert[]>([])
+  const [companyName, setCompanyName] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -44,6 +47,9 @@ export default function Dashboard(): React.JSX.Element {
 
   useEffect(() => {
     load()
+    fetchCompany()
+      .then((c) => setCompanyName(c.name))
+      .catch(() => undefined)
   }, [load])
 
   const byCurrency = <T extends { currency: Currency }>(rows: T[], c: Currency): T | undefined =>
@@ -54,7 +60,13 @@ export default function Dashboard(): React.JSX.Element {
   return (
     <div className="mx-auto max-w-6xl p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-slate-800">{t('dashboard')}</h2>
+        <div className="flex items-center gap-3">
+          <img src={LOGO} alt="" className="h-14 w-14" />
+          <div>
+            <h2 className="text-2xl font-bold text-slate-800">{t('dashboard')}</h2>
+            <p className="text-sm text-slate-500">{companyName || t('appTitle')}</p>
+          </div>
+        </div>
         <button
           onClick={load}
           className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm hover:bg-slate-50"

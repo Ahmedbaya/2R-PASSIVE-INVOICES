@@ -9,6 +9,7 @@ import Suppliers from './pages/Suppliers'
 import Reports from './pages/Reports'
 import ImportPage from './pages/Import'
 import Settings from './pages/Settings'
+import { LOGO } from './assets/logo'
 
 export default function App(): React.JSX.Element {
   const { status, error, retry } = useConnection()
@@ -18,13 +19,18 @@ export default function App(): React.JSX.Element {
 
   if (status === 'connecting') {
     return (
-      <div className="flex h-full items-center justify-center text-slate-500">{t('connecting')}</div>
+      <div className="flex h-full flex-col items-center justify-center gap-4">
+        <img src={LOGO} alt="" className="h-28 w-28 drop-shadow-lg" />
+        <div className="text-xl font-bold text-slate-700">{t('appTitle')}</div>
+        <div className="text-slate-500">{t('connecting')}</div>
+      </div>
     )
   }
 
   if (status === 'error') {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+        <img src={LOGO} alt="" className="h-20 w-20" />
         <p className="text-lg font-semibold text-red-700">{t('connectionError')}</p>
         <p className="max-w-xl text-sm text-slate-600">
           {error === MISSING_CREDENTIALS ? t('missingCredentials') : error}

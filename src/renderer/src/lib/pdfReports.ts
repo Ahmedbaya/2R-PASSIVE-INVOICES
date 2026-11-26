@@ -2,6 +2,7 @@ import type { Dictionary } from '../i18n/translations'
 import { CURRENCIES, formatDate, formatMoney, todayISO, type Currency } from './format'
 import type { LedgerRow, PaymentMethod } from './types'
 import type { JournalPayment } from './reportData'
+import { LOGO } from '../assets/logo'
 
 type T = (key: keyof Dictionary) => string
 
@@ -43,7 +44,7 @@ const CSS = `
 function page(title: string, lang: string, body: string): string {
   return (
     `<!doctype html><html lang="${esc(lang)}"><head><meta charset="utf-8">` +
-    `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">` +
+    `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:">` +
     `<title>${esc(title)}</title><style>${CSS}</style></head><body>${body}</body></html>`
   )
 }
@@ -60,8 +61,11 @@ function header(company: string, title: string, subtitle: string): string {
     )
     .join('')
   return (
-    `<div>${info}<h1 style="margin-top:8px;">${esc(title)}</h1>` +
-    `<div class="sub">${esc(subtitle)}</div></div>`
+    `<table style="width:100%;border:0;margin:0 0 4px;"><tr>` +
+    `<td style="border:0;padding:0;width:70px;vertical-align:middle;">` +
+    `<img src="${LOGO}" style="width:60px;height:60px;" alt=""></td>` +
+    `<td style="border:0;padding:0;vertical-align:middle;">${info}</td></tr></table>` +
+    `<h1 style="margin-top:6px;">${esc(title)}</h1><div class="sub">${esc(subtitle)}</div>`
   )
 }
 

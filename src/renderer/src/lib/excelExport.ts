@@ -1,5 +1,6 @@
 import ExcelJS from 'exceljs'
 import { formatDate } from './format'
+import { LOGO } from '../assets/logo'
 import type { Lang } from '../i18n/translations'
 import type { LedgerRow, PaymentMethod, PaymentRow } from './types'
 
@@ -177,8 +178,14 @@ export async function buildLegacyWorkbook(
     period.from || period.to
       ? `${period.from ? formatDate(period.from) : '…'} – ${period.to ? formatDate(period.to) : '…'}`
       : X.allDates
-  ws.getCell('A1').value = `${X.periodLabel}: ${periodText} · ${X.exportedOn} ${formatDate(new Date().toISOString())}`
-  ws.getCell('A1').font = { italic: true, size: 9, color: { argb: 'FF808080' } }
+  // Logo at the top left (rows 1 and 2, column A); the period note moves to B1
+  const logoId = wb.addImage({ base64: LOGO, extension: 'png' })
+  ws.addImage(logoId, { tl: { col: 0.1, row: 0.1 }, ext: { width: 64, height: 64 } })
+  ws.getRow(1).height = 30
+  ws.getRow(2).height = 36
+  ws.getCell('B1').value = `${X.periodLabel}: ${periodText} · ${X.exportedOn} ${formatDate(new Date().toISOString())}`
+  ws.getCell('B1').font = { italic: true, size: 9, color: { argb: 'FF808080' } }
+  ws.getCell('B1').alignment = { vertical: 'middle' }
   ws.getCell('B2').value = X.title
   ws.getCell('B2').font = { bold: true, size: 14 }
   ws.getCell('N2').value = X.note

@@ -7,7 +7,7 @@ export const LANGUAGES: { code: Lang; label: string; locale: string }[] = [
 ]
 
 const en = {
-  appTitle: 'Factures Passives Manager',
+  appTitle: '2R FACTURES PASSIVES',
   language: 'Language',
   connecting: 'Connecting…',
   connectionError: 'Could not connect to the database',
@@ -296,7 +296,7 @@ const en = {
 export type Dictionary = Record<keyof typeof en, string>
 
 const fr: Dictionary = {
-  appTitle: 'Factures Passives Manager',
+  appTitle: '2R FACTURES PASSIVES',
   language: 'Langue',
   connecting: 'Connexion…',
   connectionError: 'Impossible de se connecter à la base de données',
@@ -582,7 +582,7 @@ const fr: Dictionary = {
 }
 
 const it: Dictionary = {
-  appTitle: 'Factures Passives Manager',
+  appTitle: '2R FACTURES PASSIVES',
   language: 'Lingua',
   connecting: 'Connessione…',
   connectionError: 'Impossibile connettersi al database',

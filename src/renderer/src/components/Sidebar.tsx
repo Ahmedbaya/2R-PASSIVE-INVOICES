@@ -1,6 +1,7 @@
 import { useI18n } from '../i18n/I18nProvider'
 import LanguageSwitcher from '../i18n/LanguageSwitcher'
 import type { Dictionary } from '../i18n/translations'
+import { LOGO } from '../assets/logo'
 
 export type Page = 'dashboard' | 'invoices' | 'suppliers' | 'reports' | 'import' | 'settings'
 
@@ -22,7 +23,10 @@ export default function Sidebar({ page, onNavigate }: Props): React.JSX.Element 
   const { t } = useI18n()
   return (
     <aside className="flex w-56 shrink-0 flex-col bg-slate-800 text-white">
-      <div className="px-5 py-5 text-lg font-bold leading-tight">{t('appTitle')}</div>
+      <div className="flex items-center gap-3 px-4 py-5">
+        <img src={LOGO} alt="" className="h-10 w-10 shrink-0" />
+        <span className="text-base font-bold leading-tight">{t('appTitle')}</span>
+      </div>
       <nav className="flex-1 space-y-1 px-3">
         {ITEMS.map((item) => (
           <button

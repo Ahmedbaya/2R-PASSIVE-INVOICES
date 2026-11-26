@@ -9,6 +9,7 @@ import {
   saveExportLang,
   type Company
 } from '../lib/settings'
+import { LOGO } from '../assets/logo'
 
 const inputCls =
   'w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500'
@@ -188,7 +189,10 @@ export default function Settings(): React.JSX.Element {
       </form>
 
       <div className="rounded-xl bg-white p-5 shadow">
-        <h3 className="mb-2 text-lg font-bold text-slate-800">{t('about')}</h3>
+        <div className="mb-3 flex items-center gap-3">
+          <img src={LOGO} alt="" className="h-12 w-12" />
+          <h3 className="text-lg font-bold text-slate-800">{t('about')}</h3>
+        </div>
         <dl className="space-y-1 text-sm">
           <div className="flex gap-3">
             <dt className="w-32 text-slate-500">{t('appTitle')}</dt>

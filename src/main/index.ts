@@ -3,6 +3,7 @@ import { join, basename } from 'path'
 import { randomUUID } from 'crypto'
 import { promises as fs } from 'fs'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import icon from '../../resources/icon.png?asset'
 
 // ---------- Encrypted key/value store (used for the Supabase session) ----------
 const storePath = (): string => join(app.getPath('userData'), 'secure-store.json')
@@ -178,6 +179,7 @@ function createWindow(): void {
     minHeight: 650,
     show: false,
     autoHideMenuBar: true,
+    icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,

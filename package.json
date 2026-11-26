@@ -1,12 +1,14 @@
 {
   "name": "factures-passives",
+  "productName": "2R FACTURES PASSIVES",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "Accounts payable ledger",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "2R CONFECTION",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
+    "icons": "node scripts/make-icons.mjs",
     "lint": "eslint --cache .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
@@ -46,6 +48,7 @@
     "prettier": "^3.9.10",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "sharp": "^0.35.5",
     "typescript": "^5.9.3",
     "vite": "^8.3.4"
   }
