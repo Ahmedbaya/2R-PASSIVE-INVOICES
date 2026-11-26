@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { todayISO } from '../lib/format'
 import { fetchJournal, fetchLedger, fetchPayments } from '../lib/reportData'
 import { buildLegacyWorkbook } from '../lib/excelExport'
 import { agingReportHtml, journalHtml } from '../lib/pdfReports'
 import { backupToJson, backupToXlsx, fetchBackup } from '../lib/backup'
+import {
+  EMPTY_COMPANY,
+  companyHeaderText,
+  fetchCompany,
+  loadExportLang,
+  saveExportLang,
+  type Company
+} from '../lib/settings'
 import { useI18n } from '../i18n/I18nProvider'
 import { LANGUAGES, translations, type Dictionary, type Lang } from '../i18n/translations'
 
@@ -18,9 +26,6 @@ const PRESETS: { key: PresetKey; label: keyof Dictionary }[] = [
   { key: 'thisYear', label: 'presetThisYear' },
   { key: 'all', label: 'presetAll' }
 ]
-
-const COMPANY_KEY = 'app.companyName'
-const EXPORT_LANG_KEY = 'app.exportLang'
 
 const pad = (n: number): string => String(n).padStart(2, '0')
 const iso = (y: number, m: number, d: number): string => `${y}-${pad(m)}-${pad(d)}`
@@ -49,24 +54,6 @@ function presetRange(key: PresetKey): [string, string] {
   }
 }
 
-function loadCompany(): string {
-  try {
-    return localStorage.getItem(COMPANY_KEY) ?? ''
-  } catch {
-    return ''
-  }
-}
-
-function loadExportLang(fallback: Lang): Lang {
-  try {
-    const saved = localStorage.getItem(EXPORT_LANG_KEY)
-    if (saved === 'en' || saved === 'fr' || saved === 'it') return saved
-  } catch {
-    /* ignore */
-  }
-  return fallback
-}
-
 const inputCls =
   'rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500'
 
@@ -74,10 +61,17 @@ export default function Reports(): React.JSX.Element {
   const { t, lang } = useI18n()
   const [from, setFrom] = useState(() => presetRange('thisYear')[0])
   const [to, setTo] = useState(() => presetRange('thisYear')[1])
-  const [company, setCompany] = useState(loadCompany)
+  const [company, setCompany] = useState<Company>(EMPTY_COMPANY)
   const [exportLang, setExportLang] = useState<Lang>(() => loadExportLang(lang))
   const [busy, setBusy] = useState<Busy>(null)
   const [message, setMessage] = useState<Msg | null>(null)
+
+  // Company details come from Settings (shared by all PCs)
+  useEffect(() => {
+    fetchCompany()
+      .then(setCompany)
+      .catch(() => undefined)
+  }, [])
 
   // The exported files use the EXPORT language, not the language of the screen
   const exportT = (key: keyof Dictionary): string => translations[exportLang][key]
@@ -85,26 +79,13 @@ export default function Reports(): React.JSX.Element {
 
   function changeExportLang(code: Lang): void {
     setExportLang(code)
-    try {
-      localStorage.setItem(EXPORT_LANG_KEY, code)
-    } catch {
-      /* ignore */
-    }
+    saveExportLang(code)
   }
 
   function applyPreset(key: PresetKey): void {
     const [f, tt] = presetRange(key)
     setFrom(f)
     setTo(tt)
-  }
-
-  function onCompanyChange(value: string): void {
-    setCompany(value)
-    try {
-      localStorage.setItem(COMPANY_KEY, value)
-    } catch {
-      /* ignore */
-    }
   }
 
   function showResult(res: Awaited<ReturnType<typeof window.api.exportExcel>>): void {
@@ -158,7 +139,7 @@ export default function Reports(): React.JSX.Element {
         if (rows.length === 0) return setMessage({ kind: 'info', text: t('noOpenDocs') })
         const html = agingReportHtml({
           rows,
-          company: company.trim(),
+          company: companyHeaderText(company, exportT('taxId')),
           t: exportT,
           locale: exportLocale,
           lang: exportLang
@@ -176,7 +157,7 @@ export default function Reports(): React.JSX.Element {
         payments,
         from,
         to,
-        company: company.trim(),
+        company: companyHeaderText(company, exportT('taxId')),
         t: exportT,
         locale: exportLocale,
         lang: exportLang
@@ -223,19 +204,17 @@ export default function Reports(): React.JSX.Element {
     info: 'bg-amber-50 text-amber-800'
   }
 
+  const headerPreview = companyHeaderText(company, t('taxId'))
+
   return (
     <div className="mx-auto max-w-6xl p-6">
       <h2 className="mb-4 text-2xl font-bold text-slate-800">{t('reportsTitle')}</h2>
 
       <div className="mb-6 space-y-4 rounded-xl bg-white p-5 shadow">
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">{t('companyName')}</span>
-          <input
-            value={company}
-            onChange={(e) => onCompanyChange(e.target.value)}
-            className={`${inputCls} w-full max-w-xl`}
-          />
-        </label>
+        <div>
+          <span className="mb-1 block text-sm font-medium text-slate-700">{t('companyFromSettings')}</span>
+          <p className="whitespace-pre-line text-sm text-slate-600">{headerPreview || t('noCompanyYet')}</p>
+        </div>
 
         <div>
           <span className="mb-1 block text-sm font-medium text-slate-700">{t('exportLanguage')}</span>

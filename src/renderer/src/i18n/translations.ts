@@ -278,7 +278,19 @@ const en = {
   connRestored: 'Connection restored.',
   reloadData: 'Reload data',
     errFileLocked:
-    'The file could not be written. It is probably open in Excel (close it), or Windows is protecting this folder. Try another file name or another folder such as Documents.'
+    'The file could not be written. It is probably open in Excel (close it), or Windows is protecting this folder. Try another file name or another folder such as Documents.',
+      settings: 'Settings',
+  interfaceLanguage: 'Interface language',
+  defaultExportLanguage: 'Default export language',
+  companyDetails: 'Company details',
+  companyDetailsHint: 'Printed at the top of the PDF reports. Shared by all computers.',
+  companyLegalName: 'Company name',
+  settingsSaved: 'Settings saved.',
+  about: 'About',
+  appVersion: 'Version',
+  database: 'Database',
+  companyFromSettings: 'Company header (from Settings)',
+  noCompanyYet: 'Not set yet. Add your company details in Settings.'
 }
 
 export type Dictionary = Record<keyof typeof en, string>
@@ -554,7 +566,19 @@ const fr: Dictionary = {
   connRestored: 'Connexion rétablie.',
   reloadData: 'Recharger les données',
     errFileLocked:
-    "Le fichier n'a pas pu être écrit. Il est probablement ouvert dans Excel (fermez-le), ou Windows protège ce dossier. Essayez un autre nom de fichier ou un autre dossier, comme Documents."
+    "Le fichier n'a pas pu être écrit. Il est probablement ouvert dans Excel (fermez-le), ou Windows protège ce dossier. Essayez un autre nom de fichier ou un autre dossier, comme Documents.",
+      settings: 'Paramètres',
+  interfaceLanguage: "Langue de l'interface",
+  defaultExportLanguage: "Langue d'export par défaut",
+  companyDetails: "Informations de l'entreprise",
+  companyDetailsHint: 'Imprimées en haut des rapports PDF. Partagées par tous les ordinateurs.',
+  companyLegalName: "Nom de l'entreprise",
+  settingsSaved: 'Paramètres enregistrés.',
+  about: 'À propos',
+  appVersion: 'Version',
+  database: 'Base de données',
+  companyFromSettings: "En-tête de l'entreprise (depuis les Paramètres)",
+  noCompanyYet: "Non renseigné. Ajoutez les informations de l'entreprise dans les Paramètres."
 }
 
 const it: Dictionary = {
@@ -826,7 +850,19 @@ const it: Dictionary = {
   connRestored: 'Connessione ripristinata.',
   reloadData: 'Ricarica i dati',
     errFileLocked:
-    "Impossibile scrivere il file. Probabilmente è aperto in Excel (chiudilo) oppure Windows protegge questa cartella. Prova un altro nome o un'altra cartella, ad esempio Documenti."
+    "Impossibile scrivere il file. Probabilmente è aperto in Excel (chiudilo) oppure Windows protegge questa cartella. Prova un altro nome o un'altra cartella, ad esempio Documenti.",
+      settings: 'Impostazioni',
+  interfaceLanguage: "Lingua dell'interfaccia",
+  defaultExportLanguage: 'Lingua di esportazione predefinita',
+  companyDetails: "Dati dell'azienda",
+  companyDetailsHint: 'Stampati in alto nei report PDF. Condivisi da tutti i computer.',
+  companyLegalName: "Nome dell'azienda",
+  settingsSaved: 'Impostazioni salvate.',
+  about: 'Informazioni',
+  appVersion: 'Versione',
+  database: 'Database',
+  companyFromSettings: "Intestazione dell'azienda (dalle Impostazioni)",
+  noCompanyYet: "Non ancora impostato. Aggiungi i dati dell'azienda nelle Impostazioni."
 }
 
 export const translations: Record<Lang, Dictionary> = { en, fr, it }

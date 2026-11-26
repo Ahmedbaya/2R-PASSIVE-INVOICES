@@ -49,9 +49,19 @@ function page(title: string, lang: string, body: string): string {
 }
 
 function header(company: string, title: string, subtitle: string): string {
+  const info = company
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((line, i) =>
+      i === 0
+        ? `<div class="company">${esc(line)}</div>`
+        : `<div style="color:#64748b;font-size:9px;">${esc(line)}</div>`
+    )
+    .join('')
   return (
-    `<div>${company ? `<div class="company">${esc(company)}</div>` : ''}` +
-    `<h1>${esc(title)}</h1><div class="sub">${esc(subtitle)}</div></div>`
+    `<div>${info}<h1 style="margin-top:8px;">${esc(title)}</h1>` +
+    `<div class="sub">${esc(subtitle)}</div></div>`
   )
 }
 

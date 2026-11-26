@@ -2,14 +2,15 @@ import { useI18n } from '../i18n/I18nProvider'
 import LanguageSwitcher from '../i18n/LanguageSwitcher'
 import type { Dictionary } from '../i18n/translations'
 
-export type Page = 'dashboard' | 'invoices' | 'suppliers' | 'reports' | 'import'
+export type Page = 'dashboard' | 'invoices' | 'suppliers' | 'reports' | 'import' | 'settings'
 
 const ITEMS: { page: Page; label: keyof Dictionary }[] = [
   { page: 'dashboard', label: 'dashboard' },
   { page: 'invoices', label: 'invoices' },
   { page: 'suppliers', label: 'suppliers' },
   { page: 'reports', label: 'reports' },
-  { page: 'import', label: 'importExcel' }
+  { page: 'import', label: 'importExcel' },
+  { page: 'settings', label: 'settings' }
 ]
 
 interface Props {

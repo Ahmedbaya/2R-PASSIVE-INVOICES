@@ -8,6 +8,7 @@ import Invoices from './pages/Invoices'
 import Suppliers from './pages/Suppliers'
 import Reports from './pages/Reports'
 import ImportPage from './pages/Import'
+import Settings from './pages/Settings'
 
 export default function App(): React.JSX.Element {
   const { status, error, retry } = useConnection()
@@ -49,6 +50,7 @@ export default function App(): React.JSX.Element {
           {page === 'suppliers' && <Suppliers />}
           {page === 'reports' && <Reports />}
           {page === 'import' && <ImportPage onGoToInvoices={() => setPage('invoices')} />}
+          {page === 'settings' && <Settings />}
         </main>
       </div>
     </div>
