@@ -25,21 +25,24 @@ export interface BackupData {
   version: number
   exportedAt: string
   suppliers: Row[]
+  supplier_items: Row[]
   purchase_invoices: Row[]
   invoice_payments: Row[]
 }
 
 export async function fetchBackup(): Promise<BackupData> {
-  const [suppliers, purchase_invoices, invoice_payments] = await Promise.all([
+  const [suppliers, supplier_items, purchase_invoices, invoice_payments] = await Promise.all([
     fetchTable('suppliers'),
+    fetchTable('supplier_items'),
     fetchTable('purchase_invoices'),
     fetchTable('invoice_payments')
   ])
   return {
     app: 'factures-passives-manager',
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     suppliers,
+    supplier_items,
     purchase_invoices,
     invoice_payments
   }
@@ -55,6 +58,7 @@ export async function backupToXlsx(backup: BackupData): Promise<Uint8Array> {
 
   const tables: [string, Row[]][] = [
     ['suppliers', backup.suppliers],
+    ['supplier_items', backup.supplier_items],
     ['purchase_invoices', backup.purchase_invoices],
     ['invoice_payments', backup.invoice_payments]
   ]

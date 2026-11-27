@@ -31,6 +31,7 @@ export default function SupplierDrawer({ supplier, onClose, onSaved }: Props): R
   const [code, setCode] = useState(supplier?.supplier_code ?? '')
   const [name, setName] = useState(supplier?.name ?? '')
   const [currency, setCurrency] = useState<Currency>(supplier?.default_currency ?? 'TND')
+  const [activity, setActivity] = useState(supplier?.activity ?? '')
   const [contactName, setContactName] = useState(supplier?.contact_name ?? '')
   const [phone, setPhone] = useState(supplier?.phone ?? '')
   const [email, setEmail] = useState(supplier?.email ?? '')
@@ -66,6 +67,7 @@ export default function SupplierDrawer({ supplier, onClose, onSaved }: Props): R
       supplier_code: code.trim().toUpperCase(),
       name: name.trim(),
       default_currency: currency,
+      activity: emptyToNull(activity),
       contact_name: emptyToNull(contactName),
       phone: emptyToNull(phone),
       email: emptyToNull(email),
@@ -155,6 +157,16 @@ export default function SupplierDrawer({ supplier, onClose, onSaved }: Props): R
                 </option>
               ))}
             </select>
+          </Field>
+
+          <Field label={t('activity')}>
+            <textarea
+              rows={3}
+              value={activity}
+              placeholder={t('activityPlaceholder')}
+              onChange={(e) => setActivity(e.target.value)}
+              className={inputCls}
+            />
           </Field>
 
           <Field label={t('contactName')}>

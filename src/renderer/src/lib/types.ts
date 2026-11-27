@@ -11,8 +11,10 @@ export interface SupplierRow {
   address: string | null
   tax_id: string | null
   notes: string | null
+  activity: string | null
   is_active: boolean
   invoice_count: number
+  item_count: number
   open_tnd: number
   open_eur: number
   open_usd: number
@@ -24,6 +26,18 @@ export interface SupplierOption {
   name: string
   default_currency: Currency
   is_active: boolean
+}
+
+// One item purchased from a supplier
+export interface SupplierItem {
+  id: string
+  supplier_id: string
+  name: string
+  reference: string | null
+  unit: string | null
+  unit_price: number | null
+  currency: Currency
+  notes: string | null
 }
 
 export type InvoiceStatus = 'UNPAID' | 'OVERDUE' | 'PARTIAL' | 'PARTIAL_OVERDUE' | 'PAID' | 'VOID'
@@ -54,6 +68,7 @@ export interface LedgerRow {
   is_void: boolean
   status: InvoiceStatus
 }
+
 export type PaymentMethod = 'CHEQUE' | 'VIREMENT' | 'ESPECE' | 'TRAITE' | 'CARTE' | 'OTHER'
 export const PAYMENT_METHODS: PaymentMethod[] = [
   'CHEQUE',
